@@ -1,6 +1,7 @@
 package com.puigros.ws.controller;
 
 import com.puigros.gemfire.model.Customer;
+import com.puigros.gemfire.model.CustomerAddress;
 import com.puigros.gemfire.repository.CustomerRepository;
 import com.puigros.model.service.SampleService;
 import io.swagger.annotations.Api;
@@ -66,10 +67,17 @@ public class GemFireController {
                     headers = "Accept=application/json", method = RequestMethod.GET)
     public ResponseEntity<Void> createData() {
 
-
+        CustomerAddress adr=new CustomerAddress();
+        adr.setStreet("Sessamy Street");
+        adr.setNumber(8);
         Customer peter = new Customer("Peter", "Williams", 20);
-        Customer mary = new Customer("Mary", "Diaz", 25);
+        peter.setAddress(adr);
 
+        adr=new CustomerAddress();
+        adr.setStreet("Sessamy Street 2");
+        adr.setNumber(88);
+        Customer mary = new Customer("Mary", "Diaz", 25);
+        mary.setAddress(adr);
         // SAVE customer to Gemfire
         customerRepository.save(peter);
         customerRepository.save(mary);

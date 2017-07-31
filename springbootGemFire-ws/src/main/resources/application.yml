@@ -6,13 +6,13 @@ info:
   version: 1.0
   title: hazelcastTaskDistributor
 server:
-  port: 8080
+  port: 8181
 management:
   context-path: /manage
   security:
     enabled: false
-gemfire:
-  nodename: gemFireNodeName
+
+
 # Swagger specification path
 springfox:
   documentation:
@@ -20,17 +20,32 @@ springfox:
       v2:
         path: /api-docs
 
-
 # Jackson serialization library: date serialization configuration
 jackson:
   serialization:
     write_dates_as_timestamps: false
 
+logging:
+  config: classpath:log4j2.xml
 # PROFILE LOCAL  #
 ---
 spring:
-  profiles: local
+  profiles: gemFireNodeName
   gemfire:
-   start-locator: localhost[10335]
-logging:
-  config: classpath:log4j2.xml
+    name: gemFireNodeName
+    start-locator: localhost[10334]
+    locators: localhost[10335]
+    manager:
+      port: 1099
+      start: true
+
+---
+spring:
+  profiles: gemFireNodeName2
+  gemfire:
+    name: gemFireNodeName
+    start-locator: localhost[10335]
+    locators: localhost[10334]
+    manager:
+      port: 1199
+      start: true
